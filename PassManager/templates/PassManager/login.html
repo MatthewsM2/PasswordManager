@@ -1,10 +1,55 @@
-<h1>Login</h1>
+{% extends 'PassManager/compoents/header.html' %}
 
+{% block content %}
+<h1>Login</h1>
 <form method="POST">
 
-    {% csrf_token %}
 
-    {{loginform.as_p}}
+    {% comment %} {{loginform.as_p}} {% endcomment %}
 
-    <input type="submit" value="Login"/>
+    
 </form>
+
+<form method="POST" class="formBody" style="width:35vw">
+    {% csrf_token %}
+    <!-- Email input -->
+    <div data-mdb-input-init class="form-outline mb-4">
+      <input type="text" id="form2Example1" class="form-control" name="username" maxlength="150" required />
+      <label class="form-label" for="form2Example1">Username</label>
+    </div>
+    
+    {% if data %}
+    <p>{{ data.error }}</p>
+    {% endif %}
+        <!-- Password input -->
+    <div data-mdb-input-init class="form-outline mb-4">
+      <input type="password" id="form2Example2" class="form-control" name="password" required/>
+      <label class="form-label" for="form2Example2">Password</label>
+    </div>
+  
+    <!-- 2 column grid layout for inline styling -->
+    <div class="row mb-4">
+      <div class="col d-flex justify-content-center">
+        <!-- Checkbox -->
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="" id="form2Example34" checked />
+          <label class="form-check-label" for="form2Example34"> Remember me </label>
+        </div>
+      </div>
+  
+      <div class="col">
+        <!-- Simple link -->
+        <a href="#!"></a>
+      </div>
+    </div>
+  
+    <!-- Submit button -->
+    <input class="btn btn-primary btn-block mb-4" type="submit" value="Login"/>
+    {% comment %} <button data-mdb-ripple-init type="button" >Sign in</button> {% endcomment %}
+  
+    <!-- Register buttons -->
+    <div class="text-center">
+      <p>Not a member? <a href="{% url 'register' %}">Register</a></p>
+  </form>
+
+{% endblock  %}

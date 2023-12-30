@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
 from . form import UserCreationForm, LoginForm
+from django.contrib.auth.decorators import login_required
+from django.utils.html import strip_tags
 
 # - Authentication models and functions
 from django.contrib.auth.models import auth
@@ -14,6 +16,7 @@ def hello_world(request):
 
 def login(request):
     form = LoginForm()
+    data = {}
 
     if request.method == 'POST':
 
@@ -32,13 +35,21 @@ def login(request):
 
                 return redirect("dashboard")
 
+        data['error'] = {field: strip_tags(message) for field, message in form.errors.items()}
 
-    context = {'loginform':form}
+
+    context = {'loginform':form, 'data':data}
 
     return render(request, 'PassManager/login.html', context=context) 
 
+def logout(request):
+    auth.logout(request)
+    return redirect('login')
 
-
+@login_required(login_url="login")
+def dashboard(request):
+    
+    return render(request,'PassManager/dashboard.html',{})  
 
 def register(request):
     form = UserCreationForm()
@@ -52,8 +63,6 @@ def register(request):
 
     return render(request,'PassManager/register.html',context=context)        
 
-def dashboard(request):
-    
-    return render(request,'PassManager/dashboard.html',{})        
+      
 
 # Create your views here.
