@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
-from . form import UserCreationForm, LoginForm
+from . form import UserCreationForm, LoginForm, EntryForm
 from django.contrib.auth.decorators import login_required
 from django.utils.html import strip_tags
+from .models import Entry
 
 # - Authentication models and functions
 from django.contrib.auth.models import auth
@@ -48,8 +49,21 @@ def logout(request):
 
 @login_required(login_url="login")
 def dashboard(request):
+    form = EntryForm()
+    uid = request.user.id
+    data = Entry.objects.filter(uid=uid)
+    if request.method == "POST":
+        print(request.user.id)
+        if "new-entery" in request.POST:
+            form = EntryForm(request.POST)
+            
+            if form.is_valid():
+                form.save()
+                return redirect('dashboard')
+    context = {"entryform":form,"user":uid,"data":data}
+
     
-    return render(request,'PassManager/dashboard.html',{})  
+    return render(request,'PassManager/dashboard.html',context=context)  
 
 def register(request):
     form = UserCreationForm()

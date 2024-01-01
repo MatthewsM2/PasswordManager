@@ -1,2 +1,212 @@
-<h1>Dashboard</h1>
-<a href="{% url 'logout' %}">Logout</a>
+{% extends 'PassManager/compoents/dashboard-nav.html' %} {% block content %}
+<div class="card">
+  {% comment %}
+  <img
+    src="https://mdbcdn.b-cdn.net/img/new/standard/city/062.webp"
+    class="card-img-top"
+    alt="Chicago Skyscrapers"
+  />
+  {% endcomment %} {% comment %} div conatiner input {% endcomment %}
+
+  <form method="POST" action="{% url 'dashboard' %}">
+    <!-- 2 column grid layout with text inputs for the first and last names -->
+
+    {% csrf_token %}
+    <!-- Text input -->
+    {% comment %} {{entryform.as_p}} {% endcomment %}
+    <input type="hidden" name="uid" value="{{user}}" />
+    <div data-mdb-input-init class="form-outline mb-4">
+      <input
+        type="text"
+        id="form6Example3"
+        class="form-control"
+        name="title"
+        required
+      />
+      <label class="form-label" for="form6Example3">Title</label>
+    </div>
+
+    <div class="row mb-4">
+      <div class="col">
+        <div data-mdb-input-init class="form-outline">
+          <input
+            type="text"
+            id="form6Example1"
+            class="form-control"
+            name="uname"
+          />
+          <label class="form-label" for="form6Example1">Username</label>
+        </div>
+      </div>
+
+      <div class="col">
+            <div class="input-group ">
+              <input
+                type="password"
+                id="password"
+                class="form-control"
+                placeholder="Password"
+                name="password"
+              />
+              <div class="input-group-append">
+                <span class="input-group-text">
+                  <i class="fas fa-eye" id="togglePassword"></i>
+                </span>
+              </div>
+            </div>
+        </div>
+      </div>
+
+    <div class="row">
+      <div class="col">
+        
+      </div>
+    </div>
+
+    <!-- Text input -->
+    <div data-mdb-input-init class="form-outline mb-4">
+      <input type="text" id="form6Example4" class="form-control" name="url" />
+      <label class="form-label" for="form6Example4">URL</label>
+    </div>
+
+    <!-- Email input -->
+    <div data-mdb-input-init class="form-outline mb-4">
+      <input type="text" id="form6Example5" class="form-control" name="tags" />
+      <label class="form-label" for="form6Example5">Tags</label>
+    </div>
+
+    <!-- Number input -->
+    <div data-mdb-input-init class="form-outline mb-4">
+      <input
+        type="date"
+        id="form6Example6"
+        class="form-control"
+        name="expire"
+      />
+      <label class="form-label" for="form6Example6">Expires</label>
+    </div>
+
+    <!-- Message input -->
+    <div data-mdb-input-init class="form-outline mb-4">
+      <textarea
+        class="form-control"
+        id="form6Example7"
+        rows="4"
+        name="notes"
+      ></textarea>
+      <label class="form-label" for="form6Example7">Notes</label>
+    </div>
+
+    <!-- Submit button -->
+    <input
+      class="btn btn-primary btn-block mb-4"
+      type="submit"
+      value="Save"
+      name="new-entery"
+    />
+  </form>
+
+  <div class="card-body">
+    <div class="card-body">
+      <div class="d-flex">
+        <h5>All vaults</h5>
+        <button type="button" class="btn btn-primary" data-mdb-ripple-init>
+          New
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="width: 18rem">
+    {% comment %}
+    <img
+      src="https://mdbcdn.b-cdn.net/img/new/standard/city/062.webp"
+      class="card-img-top"
+      alt="Chicago Skyscrapers"
+    />
+    {% endcomment %}
+    <div class="card-body">
+      <h5 class="card-title">Search</h5>
+      <div class="input-group">
+        <div class="form-outline" data-mdb-input-init>
+          <input type="search" id="form1" class="form-control" />
+          <label class="form-label" for="form1">Search</label>
+        </div>
+        <button type="button" class="btn btn-primary" data-mdb-ripple-init>
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+    </div>
+    <ul class="list-group list-group-light list-group-small">
+      <li class="list-group-item px-4"></li>
+      <li class="list-group-item px-4">Pass Manager : Tags</li>
+      <li class="list-group-item px-4">
+        <ul>
+          <li>
+            <a href="#">hai</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+  {% comment %} Table {% endcomment %}
+
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Title</th>
+        <th scope="col">URL</th>
+        <th scope="col">...</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in data %}
+
+      <tr>
+        <th scope="row">{{ forloop.counter }}</th>
+        <input type="hidden" name="id" value="{{item.id}}">
+        <td>{{ item.title }}</td>
+        <td>
+          {{ item.url|slice:":30" }}{% if item.url|length > 30 %}...{% endif %}
+        </td>
+        <td>
+          <div class="dropdown">
+            <a
+              data-mdb-dropdown-init
+              class="text-reset me-3 dropdown-toggle hidden-arrow"
+              href="#"
+              id="navbarDropdownMenuLink"
+              role="button"
+              aria-expanded="false"
+            >
+              <i class="fas fa-ellipsis-v fa-lg text-dark"></i>
+              <span
+                class="badge rounded-pill badge-notification bg-danger"
+              ></span>
+            </a>
+            <ul
+              class="dropdown-menu dropdown-menu-end"
+              aria-labelledby="navbarDropdownMenuLink"
+            >
+              <li>
+                <a class="dropdown-item" href="#">Some news</a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="#">Another news</a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </li>
+            </ul>
+          </div>
+        </td>
+      </tr>
+
+      {% endfor %}
+    </tbody>
+  </table>
+
+  {% endblock content %}
+</div>

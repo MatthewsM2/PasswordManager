@@ -8,3 +8,4 @@ __pycache__/
 .env
 .vscode/
 .idea/
+db.sqlite3
