@@ -1,131 +1,58 @@
 {% extends 'PassManager/compoents/dashboard-nav.html' %} {% block content %}
-<div class="card">
-  {% comment %}
-  <img
-    src="https://mdbcdn.b-cdn.net/img/new/standard/city/062.webp"
-    class="card-img-top"
-    alt="Chicago Skyscrapers"
-  />
-  {% endcomment %} {% comment %} div conatiner input {% endcomment %}
+<style>
+  .cardBody{
+    display: none;
+    position: fixed;
+    top: 10vh;
+    left: 30vw;
+    background-color: white;
+    z-index: 2;
+    padding: 1rem;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+  }
+  .d-flex{
+    justify-content: space-between;
+    margin: 0;
+  }
+  #closeDiv{
+    display: none;
+    position: fixed;
+    top: 0;
+    background-color: rgba(0, 0, 0, 0.166);
+    transition: ease-in-out;
+    width: 100%;
+    height: 100%;
+  }
+  .middle-flex{
+    display: flex;
+    gap: 2rem;
+    margin-top: 7vh;
+    /* height: 100vh; */
+  }
+  .table{
+    height: fit-content;
+    margin: 0;
+    padding: 0;
+    border: 1px solid rgba(0, 0, 0, 0.044);
+  }
+</style>
+<div class="card">  
+  
 
-  <form method="POST" action="{% url 'dashboard' %}">
-    <!-- 2 column grid layout with text inputs for the first and last names -->
-
-    {% csrf_token %}
-    <!-- Text input -->
-    {% comment %} {{entryform.as_p}} {% endcomment %}
-    <input type="hidden" name="uid" value="{{user}}" />
-    <div data-mdb-input-init class="form-outline mb-4">
-      <input
-        type="text"
-        id="form6Example3"
-        class="form-control"
-        name="title"
-        required
-      />
-      <label class="form-label" for="form6Example3">Title</label>
-    </div>
-
-    <div class="row mb-4">
-      <div class="col">
-        <div data-mdb-input-init class="form-outline">
-          <input
-            type="text"
-            id="form6Example1"
-            class="form-control"
-            name="uname"
-          />
-          <label class="form-label" for="form6Example1">Username</label>
-        </div>
-      </div>
-
-      <div class="col">
-            <div class="input-group ">
-              <input
-                type="password"
-                id="password"
-                class="form-control"
-                placeholder="Password"
-                name="password"
-              />
-              <div class="input-group-append">
-                <span class="input-group-text">
-                  <i class="fas fa-eye" id="togglePassword"></i>
-                </span>
-              </div>
-            </div>
-        </div>
-      </div>
-
-    <div class="row">
-      <div class="col">
-        
-      </div>
-    </div>
-
-    <!-- Text input -->
-    <div data-mdb-input-init class="form-outline mb-4">
-      <input type="text" id="form6Example4" class="form-control" name="url" />
-      <label class="form-label" for="form6Example4">URL</label>
-    </div>
-
-    <!-- Email input -->
-    <div data-mdb-input-init class="form-outline mb-4">
-      <input type="text" id="form6Example5" class="form-control" name="tags" />
-      <label class="form-label" for="form6Example5">Tags</label>
-    </div>
-
-    <!-- Number input -->
-    <div data-mdb-input-init class="form-outline mb-4">
-      <input
-        type="date"
-        id="form6Example6"
-        class="form-control"
-        name="expire"
-      />
-      <label class="form-label" for="form6Example6">Expires</label>
-    </div>
-
-    <!-- Message input -->
-    <div data-mdb-input-init class="form-outline mb-4">
-      <textarea
-        class="form-control"
-        id="form6Example7"
-        rows="4"
-        name="notes"
-      ></textarea>
-      <label class="form-label" for="form6Example7">Notes</label>
-    </div>
-
-    <!-- Submit button -->
-    <input
-      class="btn btn-primary btn-block mb-4"
-      type="submit"
-      value="Save"
-      name="new-entery"
-    />
-  </form>
-
-  <div class="card-body">
+  
     <div class="card-body">
       <div class="d-flex">
         <h5>All vaults</h5>
-        <button type="button" class="btn btn-primary" data-mdb-ripple-init>
-          New
+        <button type="button"  class="btn btn-primary" data-mdb-ripple-init onclick='showdiv()'>
+          New Entry
         </button>
       </div>
     </div>
   </div>
 
-  <div class="card" style="width: 18rem">
-    {% comment %}
-    <img
-      src="https://mdbcdn.b-cdn.net/img/new/standard/city/062.webp"
-      class="card-img-top"
-      alt="Chicago Skyscrapers"
-    />
-    {% endcomment %}
-    <div class="card-body">
+  <div class="middle-flex">
+  <div class="card" style="width: 28rem">
+    <div  class="card-body">
       <h5 class="card-title">Search</h5>
       <div class="input-group">
         <div class="form-outline" data-mdb-input-init>
@@ -152,6 +79,7 @@
 
   {% comment %} Table {% endcomment %}
 
+  <div class="table">
   <table class="table table-hover">
     <thead>
       <tr>
@@ -191,13 +119,13 @@
               aria-labelledby="navbarDropdownMenuLink"
             >
               <li>
-                <a class="dropdown-item" href="#">Some news</a>
+                <a class="dropdown-item" href="#">Visit</a>
               </li>
               <li>
-                <a class="dropdown-item" href="#">Another news</a>
+                <a class="dropdown-item" href="#">Edit</a>
               </li>
               <li>
-                <a class="dropdown-item" href="#">Something else here</a>
+                <a class="dropdown-item" style="color:red;" href="#">Delete</a>
               </li>
             </ul>
           </div>
@@ -207,6 +135,121 @@
       {% endfor %}
     </tbody>
   </table>
+</div></div>
 
+
+  <div id="cardBody" class="cardBody">
+    <form method="POST" action="{% url 'dashboard' %}">
+      <!-- 2 column grid layout with text inputs for the first and last names -->
+  
+      {% csrf_token %}
+      <!-- Text input -->
+      {% comment %} {{entryform.as_p}} {% endcomment %}
+      <input type="hidden" name="uid" value="{{user}}" />
+      <div data-mdb-input-init class="form-outline mb-4">
+        <input
+          type="text"
+          id="form6Example3"
+          class="form-control"
+          name="title"
+          required
+        />
+        <label class="form-label" for="form6Example3">Title</label>
+      </div>
+  
+      <div class="row mb-4">
+        <div class="col">
+          <div data-mdb-input-init class="form-outline">
+            <input
+              type="text"
+              id="form6Example1"
+              class="form-control"
+              name="uname"
+            />
+            <label class="form-label" for="form6Example1">Username</label>
+          </div>
+        </div>
+  
+        <div class="col">
+              <div class="input-group ">
+                <input
+                  type="password"
+                  id="password"
+                  class="form-control"
+                  placeholder="Password"
+                  name="password"
+                />
+                <div class="input-group-append">
+                  <span class="input-group-text">
+                    <i class="fas fa-eye" id="togglePassword"></i>
+                  </span>
+                </div>
+              </div>
+          </div>
+        </div>
+  
+      <div class="row">
+        <div class="col">
+          
+        </div>
+      </div>
+  
+      <!-- Text input -->
+      <div data-mdb-input-init class="form-outline mb-4">
+        <input type="text" id="form6Example4" class="form-control" name="url" />
+        <label class="form-label" for="form6Example4">URL</label>
+      </div>
+  
+      <!-- Email input -->
+      <div data-mdb-input-init class="form-outline mb-4">
+        <input type="text" id="form6Example5" class="form-control" name="tags" />
+        <label class="form-label" for="form6Example5">Tags</label>
+      </div>
+  
+      <!-- Number input -->
+      <div data-mdb-input-init class="form-outline mb-4">
+        <input
+          type="date"
+          id="form6Example6"
+          class="form-control"
+          name="expire"
+        />
+        <label class="form-label" for="form6Example6">Expires</label>
+      </div>
+  
+      <!-- Message input -->
+      <div data-mdb-input-init class="form-outline mb-4">
+        <textarea
+          class="form-control"
+          id="form6Example7"
+          rows="4"
+          name="notes"
+        ></textarea>
+        <label class="form-label" for="form6Example7">Notes</label>
+      </div>
+  
+      <!-- Submit button -->
+      <input
+        class="btn btn-primary btn-block mb-4"
+        type="submit"
+        value="Save"
+        name="new-entery"
+      /></div>
+    </form>
+    <div id="closeDiv" onclick="closediv()"></div>
+<script>
+ function showdiv() {
+  var input = document.getElementById('cardBody');
+  var clbody = document.getElementById('closeDiv');
+  input.style.display = "block";
+  clbody.style.display = "block";
+ }
+ function closediv(params) {
+   var input = document.getElementById('cardBody');
+  var clbody = document.getElementById('closeDiv');
+  input.style.display = "none";
+  clbody.style.display = "none"; 
+ }
+</script>
   {% endblock content %}
 </div>
