@@ -1,10 +1,51 @@
+
+{% extends 'PassManager/compoents/header.html' %}
+
+{% block content %}
 <h1>Register</h1>
 
-<form method="POST">
+{% comment %} <form method="POST"> {% endcomment %}
 
     {% csrf_token %}
 
-    {{registerform.as_p}}
+    {% comment %} {{registerform.as_p}} {% endcomment %}
 
-    <input type="submit" value="Register"/>
+    <form method="POST" class="needs-validation" novalidate>
+
+        <input type="hidden" name="csrfmiddlewaretoken" value="vKD7alIRpGtGQmQh3HOcxgCfe1zykKKdzJOwo5XF2p7YE3GerbngFRRF8bf8yOS8">
+    
+        <div class="mb-3">
+            <label for="id_username" class="form-label">Username:</label>
+            <input type="text" name="username" maxlength="150" autocapitalize="none" autocomplete="username" autofocus required class="form-control" id="id_username">
+            <div class="invalid-feedback">
+                Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.
+            </div>
+        </div>
+    
+        <div class="mb-3">
+            <label for="id_password1" class="form-label">Password:</label>
+            <input type="password" name="password1" autocomplete="new-password" required class="form-control" id="id_password1">
+            <div class="invalid-feedback">
+                <ul>
+                    <li>Your password can’t be too similar to your other personal information.</li>
+                    <li>Your password must contain at least 8 characters.</li>
+                    <li>Your password can’t be a commonly used password.</li>
+                    <li>Your password can’t be entirely numeric.</li>
+                </ul>
+            </div>
+        </div>
+    
+        <div class="mb-3">
+            <label for="id_password2" class="form-label">Password confirmation:</label>
+            <input type="password" name="password2" autocomplete="new-password" required class="form-control" id="id_password2">
+            <div class="invalid-feedback">
+                Enter the same password as before, for verification.
+            </div>
+        </div>
+    
+    
+
+    <input class="btn btn-primary" type="submit" value="Register"/>
 </form>
+
+{% endblock  %}
