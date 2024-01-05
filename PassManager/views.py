@@ -67,12 +67,14 @@ def dashboard(request):
 
 def register(request):
     form = UserCreationForm()
+    data ={}
     if request.method == "POST":
         form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
             return redirect("login")
-    context = {"registerform":form}
+        data['error'] = {field: strip_tags(message) for field, message in form.errors.items()}
+    context = {"registerform":form,'data':data}
 
 
     return render(request,'PassManager/register.html',context=context)        
