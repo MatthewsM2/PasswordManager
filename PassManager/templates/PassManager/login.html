@@ -1,7 +1,17 @@
 {% extends 'PassManager/compoents/header.html' %}
 
 {% block content %}
-<h1>Login</h1>
+<style>
+  
+.formBody{
+  margin: auto;
+}
+.parDiv{
+  text-align: center;
+  margin-top: 7rem;
+  margin-bottom: 2rem;
+}
+</style>
 <form method="POST">
 
 
@@ -10,7 +20,12 @@
     
 </form>
 
-<form method="POST" class="formBody" style="width:35vw">
+<form method="POST" class="formBody " style="width:35vw">
+  <div class="parDiv">
+    <h2>Pass Manager</h2>
+    <h6>Log in or create a new account to access your secure vault.</h6>
+  </div>
+  
     {% csrf_token %}
     <!-- Email input -->
     <div data-mdb-input-init class="form-outline mb-4">
@@ -50,6 +65,7 @@
     <!-- Register buttons -->
     <div class="text-center">
       <p>Not a member? <a href="{% url 'register' %}">Register</a></p>
+    </div>
   </form>
 
 {% endblock  %}

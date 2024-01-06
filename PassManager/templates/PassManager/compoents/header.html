@@ -1,3 +1,4 @@
+{% load static %}
 <head>
     <!-- Font Awesome -->
 <link
@@ -16,6 +17,10 @@ rel="stylesheet"
 />
 <!-- Font Awesome -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+<!-- templates/your_template.html -->
+
+<link rel="icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
+<title>Pass Manager</title>
 </head>
 <body>
   {% block navbar %}{% endblock  %}
