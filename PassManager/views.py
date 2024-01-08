@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from . form import UserCreationForm, LoginForm, EntryForm
 from django.contrib.auth.decorators import login_required
 from django.utils.html import strip_tags
@@ -91,6 +91,15 @@ def getEntryDetails(request):
     except Entry.DoesNotExist:
         # return JsonResponse({'message': 'Hai'})
         return JsonResponse({'error': 'Entry not found'}, status=404)
+
+def deleteEntry(request,id):
+    entry = get_object_or_404(Entry,pk=id)
+    entry.delete()
+    # if request.method == 'POST':
+    #     entry.delete()
+    return redirect('dashboard')
+    # return render(request, '', {'entry': entry})
+
 
 
       
