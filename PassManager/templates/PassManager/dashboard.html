@@ -1,4 +1,5 @@
 {% extends 'PassManager/compoents/dashboard-nav.html' %} {% block content %}
+{% load static %}
 <style>
   .cardBody{
     display: none;
@@ -119,10 +120,10 @@
               aria-labelledby="navbarDropdownMenuLink"
             >
               <li>
-                <a class="dropdown-item" href="#">Visit</a>
+                <a class="dropdown-item"style="cursor:pointer;"  onclick="startView(this)">View</a>
               </li>
               <li>
-                <a class="dropdown-item" href="#">Edit</a>
+                <a class="dropdown-item" href="{{item.url}}" target="_blank">Visit</a>
               </li>
               <li>
                 <a class="dropdown-item" style="color:red;" href="#">Delete</a>
@@ -237,6 +238,7 @@
       /></div>
     </form>
     <div id="closeDiv" onclick="closediv()"></div>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
  function showdiv() {
   var input = document.getElementById('cardBody');
@@ -248,8 +250,15 @@
    var input = document.getElementById('cardBody');
   var clbody = document.getElementById('closeDiv');
   input.style.display = "none";
-  clbody.style.display = "none"; 
+  clbody.style.display = "none";
+  $('#form6Example3').val('');
+  $('#form6Example1').val('');
+  $('#password').val('');
+  $('#form6Example4').val('');
+  $('#form6Example6').val('');
+  $('#form6Example7').val(''); 
  }
 </script>
+<script src="{% static "/scripts/dashboard.js" %}"></script>
   {% endblock content %}
 </div>

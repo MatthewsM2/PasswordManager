@@ -3,6 +3,9 @@ from . form import UserCreationForm, LoginForm, EntryForm
 from django.contrib.auth.decorators import login_required
 from django.utils.html import strip_tags
 from .models import Entry
+from django.core.serializers import serialize
+from django.http import JsonResponse
+
 
 # - Authentication models and functions
 from django.contrib.auth.models import auth
@@ -77,7 +80,18 @@ def register(request):
     context = {"registerform":form,'data':data}
 
 
-    return render(request,'PassManager/register.html',context=context)        
+    return render(request,'PassManager/register.html',context=context)
+
+def getEntryDetails(request):
+    id = request.POST.get('id', None)
+    try:
+        entry = Entry.objects.get(id=id)
+        serialized_data = serialize('json', [entry])
+        return JsonResponse({'data': serialized_data})
+    except Entry.DoesNotExist:
+        # return JsonResponse({'message': 'Hai'})
+        return JsonResponse({'error': 'Entry not found'}, status=404)
+
 
       
 
